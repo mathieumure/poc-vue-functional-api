@@ -16,6 +16,7 @@
 <script>
 import Search from "../components/Search";
 import Result from "../components/Result";
+import { value } from "vue-function-api";
 
 export default {
   name: "home",
@@ -23,16 +24,17 @@ export default {
     Search,
     Result
   },
+  setup() {
+    const searchCriteria = value("");
 
-  data() {
-    return {
-      searchCriteria: ""
+    const onSearchChange = newValue => {
+      searchCriteria.value = newValue;
     };
-  },
-  methods: {
-    onSearchChange(newValue) {
-      this.searchCriteria = newValue;
-    }
+
+    return {
+      searchCriteria,
+      onSearchChange
+    };
   }
 };
 </script>

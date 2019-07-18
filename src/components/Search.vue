@@ -14,17 +14,16 @@
 </template>
 
 <script>
+import { value } from "vue-function-api";
+
 export default {
   name: "search",
-  data() {
-    return {
-      searchValue: ""
-    };
-  },
-  methods: {
-    handleKeyUp: function(event) {
-      this.$emit("onSearchChange", event.target.value);
-    }
+  setup(_, { emit }) {
+    const searchValue = value("");
+
+    const handleKeyUp = event => emit("onSearchChange", event.target.value);
+
+    return { searchValue, handleKeyUp };
   }
 };
 </script>

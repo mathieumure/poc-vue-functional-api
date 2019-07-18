@@ -14,22 +14,30 @@
 
 <script>
 import Card from "../components/Card";
+import { computed, onMounted } from "vue-function-api";
 
 export default {
   name: "pokemon",
   components: { Card },
   props: ["id"],
-  computed: {
-    pokemon() {
-      console.log("computed");
-      return this.$store.getters.pokemonDetail[this.id];
-    },
-    loading() {
-      return this.$store.getters.loading;
+  setup(
+    { id },
+    {
+      root: { $store }
     }
-  },
-  mounted() {
-    this.$store.dispatch("LOAD_POKEMON_DETAIL", { pokemonId: this.id });
+  ) {
+    const pokemon = computed(() => $store.getters.pokemonDetail[id]);
+
+    const loading = computed(() => $store.getters.loading);
+
+    onMounted(() => {
+      $store.dispatch("LOAD_POKEMON_DETAIL", { pokemonId: id });
+    });
+
+    return {
+      pokemon,
+      loading
+    };
   }
 };
 </script>
