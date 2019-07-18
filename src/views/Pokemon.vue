@@ -14,7 +14,8 @@
 
 <script>
 import Card from "../components/Card";
-import { computed, onMounted } from "vue-function-api";
+import { onMounted } from "vue-function-api";
+import { useGetter } from "../hooks/hooks";
 
 export default {
   name: "pokemon",
@@ -26,9 +27,11 @@ export default {
       root: { $store }
     }
   ) {
-    const pokemon = computed(() => $store.getters.pokemonDetail[id]);
-
-    const loading = computed(() => $store.getters.loading);
+    const pokemon = useGetter(
+      "pokemonDetail",
+      pokemonDetail => pokemonDetail[id]
+    );
+    const loading = useGetter("loading");
 
     onMounted(() => {
       $store.dispatch("LOAD_POKEMON_DETAIL", { pokemonId: id });

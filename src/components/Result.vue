@@ -22,6 +22,7 @@
 <script>
 import Card from "./Card";
 import { computed, onMounted, watch, value } from "vue-function-api";
+import { useGetter } from "../hooks/hooks";
 
 export default {
   name: "result",
@@ -41,10 +42,9 @@ export default {
       return lowerPokemon.includes(lowerSearch);
     };
 
+    const pokemons = useGetter("pokemons");
+    const loading = useGetter("loading");
     const filteredPokemons = value([]);
-
-    const pokemons = computed(() => $store.getters.pokemons);
-    const loading = computed(() => $store.getters.loading);
 
     watch(
       () => props.criteria,
